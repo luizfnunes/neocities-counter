@@ -33,7 +33,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         }
-        const text = getParameters("text") || "0";
+        const text = getParameter("text") || "0";
         const content = document.getElementById('content');
         content.innerText = text;
 
