@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Counter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Saira+Stencil+One&display=swap"
+        rel="stylesheet">
+    <style>
+        #content {
+            font-family: "Merriweather", serif;
+            font-optical-sizing: auto;
+            font-weight: bold;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+            color: black;
+            padding: 20px;
+            background: white;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content"></div>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+        function getParameter(name){
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        const text = getParameters("text") || "0";
+        const content = document.getElementById('content');
+        content.innerText = text;
+
+        document.fonts.ready.then(() => {
+            html2canvas(content).then(canvas => {
+                document.body.innerHTML = '';
+                document.body.appendChild(canvas);
+                window.location.href = canvas.toDataURL('image/png');
+            });
+        })
+    </script>
+</body>
+
+</html>
