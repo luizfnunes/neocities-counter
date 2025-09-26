@@ -5,50 +5,192 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visitor Counter</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Saira+Stencil+One&display=swap"
-        rel="stylesheet">
     <style>
-        *{
-            margin: 0; padding: 0; box-sizing: border-box;
+        @font-face {
+            font-family: 'Believer';
+            src: url('/fonts/BELIEVER.TTF');
+
         }
+
+        @font-face {
+            font-family: 'Chainbox';
+            src: url('/fonts/Chainbox.otf');
+        }
+
+        @font-face {
+            font-family: 'Frostbite';
+            src: url('/fonts/FROSTBITE-Wide.ttf');
+        }
+
+        @font-face {
+            font-family: 'Gomarice';
+            src: url('/fonts/gomarice_g_type.ttf');
+        }
+
+        @font-face {
+            font-family: 'Hieronimus';
+            src: url('/fonts/hieronimus.otf');
+        }
+
+        @font-face {
+            font-family: 'Motorblock';
+            src: url('/fonts/Motorblock.ttf');
+        }
+
+        @font-face {
+            font-family: 'Minisystem';
+            src: url('/fonts/Minisystem.otf');
+        }
+
+        @font-face {
+            font-family: 'Monofonto';
+            src: url('/fonts/monofonto_rg.otf');
+        }
+
+        @font-face {
+            font-family: 'Ninepin';
+            src: url('/fonts/ninepin.ttf');
+        }
+
+        @font-face {
+            font-family: 'November';
+            src: url('/fonts/november.ttf');
+        }
+
+        @font-face {
+            font-family: 'XType';
+            src: url('/fonts/XTypewriter-Regular.ttf');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         #content {
-            width: 88px;
-            height: 31px;
-            font-family: "Merriweather", serif;
+            width: 110px;
+            height: 42px;
             font-optical-sizing: auto;
             font-weight: bold;
             font-style: normal;
             font-variation-settings: "wdth" 100;
-            color: black;
-            padding: 20px;
-            background: white;
-            display: inline-block;
+            color: white;
+            background-color: black;
+            display: flex;
+            justify-content: end;
+            align-items: stretch;
+            gap: 5px;
+        }
+
+        #content .number {
+            width: 9px;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 4px;
+        }
+
+        .style1 {
+            font-family: "Believer", serif;
+            font-size: 18px;
+        }
+
+        .style2 {
+            font-family: "Chainbox", serif;
+            font-size: 18px;
+        }
+
+        .style3 {
+            font-family: "Gomarice", serif;
+            font-size: 18px;
+        }
+
+        .style4 {
+            font-family: "Hieronimus", serif;
+            font-size: 18px;
+        }
+
+        .style5 {
+            font-family: "Motorblock", serif;
+            font-size: 18px;
+        }
+
+        .style6 {
+            font-family: "Minisystem", serif;
+            font-size: 18px;
+        }
+
+        .style7 {
+            font-family: "Monofonto", serif;
+            font-size: 18px;
+        }
+
+        .style8 {
+            font-family: "Ninepin", serif;
+            font-size: 18px;
+        }
+
+        .style9 {
+            font-family: "November", serif;
+            font-size: 18px;
+        }
+
+        .style10 {
+            font-family: "XType", serif;
+            font-size: 18px;
         }
     </style>
 </head>
 
 <body>
     <div id="content"></div>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script>
-        function getParameter(name){
+        function getParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         }
-        const text = getParameter("text") || "0";
-        const content = document.getElementById('content');
-        content.innerText = text;
+        const style = getParameter("style") || "5";
+        const site = getParameter("site");
+        const border = getParameter("border") || "none";
+        const bg = getParameter("bg") || "000000";
+        const fg = getParameter("fg") || "FFFFFF";
 
-        document.fonts.ready.then(() => {
-            html2canvas(content).then(canvas => {
-                document.body.innerHTML = '';
-                document.body.appendChild(canvas);
-                //window.location.href = canvas.toDataURL('image/png');
+        const content = document.getElementById('content');
+        if (border != "none") {
+            content.style.borderWidth = "1px";
+            content.style.borderStyle = "solid";
+            content.style.borderColor = "#" + border;
+        }
+        content.style.backgroundColor = "#" + bg;
+        content.style.color = "#" + fg;
+
+        let url = `https://corsproxy.io/?https://neocities.org/api/info?sitename=${site}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    const text = String(data.info.views);
+                    console.log(text)
+                    for (let char of text) {
+                        const span = document.createElement('span');
+                        span.classList.add('number');
+                        span.classList.add(`style${style}`);
+                        span.innerText = char;
+                        content.appendChild(span)
+                    }
+                }
+            })
+            .catch(error => {
+                const span = document.createElement('span');
+                span.classList.add('number');
+                span.classList.add(`style${style}`);
+                span.innerText = "0";
+                content.appendChild(span)
+                console.error('Erro ao carregar JSON:', error);
             });
-        })
     </script>
 </body>
 
