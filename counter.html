@@ -11,7 +11,12 @@
         href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Saira+Stencil+One&display=swap"
         rel="stylesheet">
     <style>
+        *{
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
         #content {
+            width: 88px;
+            height: 31px;
             font-family: "Merriweather", serif;
             font-optical-sizing: auto;
             font-weight: bold;
@@ -41,7 +46,7 @@
             html2canvas(content).then(canvas => {
                 document.body.innerHTML = '';
                 document.body.appendChild(canvas);
-                window.location.href = canvas.toDataURL('image/png');
+                //window.location.href = canvas.toDataURL('image/png');
             });
         })
     </script>
