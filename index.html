@@ -7,11 +7,11 @@
     <style>
         @font-face {
             font-family: 'Gomarice';
-            src: url('/neocities-counter/fonts/gomarice_g_type.ttf');
+            src: url('/fonts/gomarice_g_type.ttf');
         }
         @font-face {
             font-family: 'Monofonto';
-            src: url('/neocities-counter/fonts/monofonto_rg.otf');
+            src: url('/fonts/monofonto_rg.otf');
         }
         *{margin: 0; padding: 0; box-sizing: border-box;}
         #page{
@@ -190,7 +190,7 @@
             }
             let view = document.getElementById('view');
             let result = document.getElementById('result');
-            let iframeDemo = `<iframe width="110px" height="42" src="/demo.html?border=${border}&style=${font}&bg=${bg}&fg=${fg}" frameborder="0"></iframe>`;
+            let iframeDemo = `<iframe width="110px" height="42" src="https://luizfnunes.github.io/neocities-counter/demo.html?border=${border}&style=${font}&bg=${bg}&fg=${fg}" frameborder="0"></iframe>`;
             let iframeResult = `<iframe width="110px" height="42" src="https://luizfnunes.github.io/neocities-counter/counter.html?site=${site}&border=${border}&style=${font}&bg=${bg}&fg=${fg}" frameborder="0"></iframe>`;
             view.innerHTML = iframeDemo;
             if(generate == true){
