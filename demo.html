@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Counter</title>
+    <style>
+        @font-face {
+            font-family: 'Believer';
+            src: url('/neocities-counter/fonts/BELIEVER.TTF');
+
+        }
+
+        @font-face {
+            font-family: 'Chainbox';
+            src: url('/neocities-counter/fonts/Chainbox.otf');
+        }
+
+        @font-face {
+            font-family: 'Frostbite';
+            src: url('/neocities-counter/fonts/FROSTBITE-Wide.ttf');
+        }
+
+        @font-face {
+            font-family: 'Gomarice';
+            src: url('/neocities-counter/fonts/gomarice_g_type.ttf');
+        }
+
+        @font-face {
+            font-family: 'Hieronimus';
+            src: url('/neocities-counter/fonts/hieronimus.otf');
+        }
+
+        @font-face {
+            font-family: 'Motorblock';
+            src: url('/neocities-counter/fonts/Motorblock.ttf');
+        }
+
+        @font-face {
+            font-family: 'Minisystem';
+            src: url('/neocities-counter/fonts/Minisystem.otf');
+        }
+
+        @font-face {
+            font-family: 'Monofonto';
+            src: url('/neocities-counter/fonts/monofonto_rg.otf');
+        }
+
+        @font-face {
+            font-family: 'Ninepin';
+            src: url('/neocities-counter/fonts/ninepin.ttf');
+        }
+
+        @font-face {
+            font-family: 'November';
+            src: url('/neocities-counter/fonts/november.ttf');
+        }
+
+        @font-face {
+            font-family: 'XType';
+            src: url('/neocities-counter/fonts/XTypewriter-Regular.ttf');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #content {
+            width: 110px;
+            height: 42px;
+            font-optical-sizing: auto;
+            font-weight: bold;
+            font-style: normal;
+            font-variation-settings: "wdth" 100;
+            color: white;
+            background-color: black;
+            display: flex;
+            justify-content: end;
+            align-items: stretch;
+            gap: 5px;
+        }
+
+        #content .number {
+            width: 9px;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 4px;
+        }
+
+        .style1 {
+            font-family: "Believer", serif;
+            font-size: 18px;
+        }
+
+        .style2 {
+            font-family: "Chainbox", serif;
+            font-size: 18px;
+        }
+
+        .style3 {
+            font-family: "Gomarice", serif;
+            font-size: 18px;
+        }
+
+        .style4 {
+            font-family: "Hieronimus", serif;
+            font-size: 18px;
+        }
+
+        .style5 {
+            font-family: "Motorblock", serif;
+            font-size: 18px;
+        }
+
+        .style6 {
+            font-family: "Minisystem", serif;
+            font-size: 18px;
+        }
+
+        .style7 {
+            font-family: "Monofonto", serif;
+            font-size: 18px;
+        }
+
+        .style8 {
+            font-family: "Ninepin", serif;
+            font-size: 18px;
+        }
+
+        .style9 {
+            font-family: "November", serif;
+            font-size: 18px;
+        }
+
+        .style10 {
+            font-family: "XType", serif;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content"></div>
+    <script>
+        function getParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        function randomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        const style = getParameter("style") || "5";
+        const border = getParameter("border") || "none";
+        const bg = getParameter("bg") || "000000";
+        const fg = getParameter("fg") || "FFFFFF";
+
+        const content = document.getElementById('content');
+        if (border != "none") {
+            content.style.borderWidth = "1px";
+            content.style.borderStyle = "solid";
+            content.style.borderColor = "#" + border;
+        }
+        content.style.backgroundColor = "#" + bg;
+        content.style.color = "#" + fg;
+
+        const text = String(randomNumber(150, 965489));
+        for (let char of text) {
+            const span = document.createElement('span');
+            span.classList.add('number');
+            span.classList.add(`style${style}`);
+            span.innerText = char;
+            content.appendChild(span)
+        }
+    </script>
+</body>
+
+</html>
