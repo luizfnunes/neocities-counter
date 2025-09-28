@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neocities Counter Generator</title>
-    <script defer src="/neocities-counter/assets/alpine.min.js"></script>
-    <link rel="stylesheet" href="/neocities-counter/assets/style.css">
+    <script defer src="https://luizfnunes.github.io/neocities-counter/assets/alpine.min.js"></script>
+    <link rel="stylesheet" href="https://luizfnunes.github.io/neocities-counter/assets/style-local.css">
 </head>
 
 <body>
@@ -22,7 +22,7 @@
         alert: '',
         success: false,
         demo(){
-            return `/demo.html?site=${this.site}&style=${this.style}&borderSize=${this.borderSize}&border=${this.border.replace('#','')}&bg=${this.bg.replace('#','')}&fg=${this.fg.replace('#','')}&link=${this.link}&linkColor=${this.linkColor.replace('#','')}`
+            return `https://luizfnunes.github.io/neocities-counter/demo.html?site=${this.site}&style=${this.style}&borderSize=${this.borderSize}&border=${this.border.replace('#','')}&bg=${this.bg.replace('#','')}&fg=${this.fg.replace('#','')}&link=${this.link}&linkColor=${this.linkColor.replace('#','')}`
         },
         code(){
             return `<iframe frameborder='0' width='132px' height='54px' src='https://luizfnunes.github.io/neocities-counter/counter.html?site=${this.site}&style=${this.style}&borderSize=${this.borderSize}&border=${this.border.replace('#','')}&bg=${this.bg.replace('#','')}&fg=${this.fg.replace('#','')}&link=${this.link}&linkColor=${this.linkColor.replace('#','')}'></iframe>`;
@@ -107,6 +107,5 @@
         </div>
     </div>
 </body>
-
 
 </html>
