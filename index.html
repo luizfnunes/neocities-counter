@@ -5,267 +5,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neocities Counter Generator</title>
-    <style>
-        @font-face {
-            font-family: 'Gomarice';
-            src: url('/neocities-counter/fonts/gomarice_g_type.ttf');
-        }
-
-        @font-face {
-            font-family: 'Monofonto';
-            src: url('/neocities-counter/fonts/monofonto_rg.otf');
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        #page {
-            font-family: 'Monofonto', sans;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        h1 {
-            font-family: 'Gomarice', sans;
-            padding: 15px 0;
-            font-size: 48px;
-        }
-
-        h4 {
-            padding: 10px 0;
-        }
-
-        #page>div:not(#view) {
-            width: 100%;
-            max-width: 320px;
-            margin: 5px auto;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        select {
-            padding: 5px;
-            border: 1px solid #333;
-            border-radius: 4px;
-        }
-
-        input[type="color"] {
-            border: 1px solid #0283aa;
-            padding: 5px;
-            background-color: #FFF;
-        }
-
-        input[type="text"] {
-            padding: 5px;
-            border: 1px solid #333;
-            border-radius: 4px;
-            font-family: 'Monofonto', sans;
-            outline: none;
-        }
-
-        #result {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        #result textarea {
-            width: 100%;
-            height: 90px;
-        }
-
-        #button-area {
-            justify-content: center !important;
-        }
-
-        #generate {
-            margin: 15px 0;
-            padding: 10px;
-            border: 1px solid #333;
-            background-color: #FFF;
-            cursor: pointer;
-            font-family: 'Monofonto', sans;
-
-            &:hover {
-                background-color: #b6b6b6;
-            }
-        }
-
-        #copy {
-            margin-top: -20px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-family: 'Monofonto', sans;
-            cursor: pointer;
-
-        }
-
-        #alert {
-            font-family: 'Monofonto', sans;
-            position: absolute;
-            width: 480px;
-            bottom: 10px;
-            left: 50%;
-            padding: 20px;
-            background-color: antiquewhite;
-            transform: translate(-50%, 0);
-            display: none;
-            flex-direction: row;
-            justify-content: space-between;
-
-            &.success {
-                background: #30dd8c;
-                color: #026135;
-                box-shadow: 0 0 5px #0a8f51;
-                border: 1px solid #0a9454;
-
-                button#close {
-                    color: #026135;
-                }
-            }
-
-            &.error {
-                background: #ec795c;
-                color: #611502;
-                box-shadow: 0 0 5px #d65f3b;
-                border: 1px solid #942a0a;
-
-                button#close {
-                    color: #611502;
-                }
-            }
-
-            button#close {
-                order: 2;
-                background: none;
-                border: none;
-                cursor: pointer;
-                font-weight: bold;
-            }
-        }
-    </style>
+    <script defer src="/neocities-counter/assets/alpine.min.js"></script>
+    <link rel="stylesheet" href="/neocities-counter/assets/style-local.css">
 </head>
 
 <body>
-    <div id="alert" class="error">
-        <button id="close">&times;</button>
-        <p id="message"></p>
-    </div>
-    <div id="page">
+    <div id="page" x-data="{
+        style: 1,
+        bg: '#000000',
+        fg: '#FFFFFF',
+        border: '#000000',
+        borderSize: 0,
+        site: '',
+        link: true,
+        linkColor: '#0000FF',
+        alert: '',
+        success: false,
+        demo(){
+            return `/demo.html?site=${this.site}&style=${this.style}&borderSize=${this.borderSize}&border=${this.border.replace('#','')}&bg=${this.bg.replace('#','')}&fg=${this.fg.replace('#','')}&link=${this.link}&linkColor=${this.linkColor.replace('#','')}`
+        },
+        code(){
+            return `<iframe frameborder='0' width='132px' height='54px' src='https://luizfnunes.github.io/neocities-counter/counter.html?site=${this.site}&style=${this.style}&borderSize=${this.borderSize}&border=${this.border.replace('#','')}&bg=${this.bg.replace('#','')}&fg=${this.fg.replace('#','')}&link=${this.link}&linkColor=${this.linkColor.replace('#','')}'></iframe>`;
+        },
+        updateCode(){
+            if(this.site == ''){
+                this.success = false;
+                this.alert = 'Please, enter your site name in neocities!';
+            }else{
+                navigator.clipboard.writeText(this.code())
+                         .then(() => {
+                            this.success = true;
+                            this.alert = 'Copied to clipboard!';
+                         })
+                         .catch(err => {
+                            this.success = false;
+                            this.alert = 'Error copying to clipboard!';
+                         });
+            }
+        }
+    }" x-init="$watch('borderSize', val => {
+        if(val < 0) borderSize = 0;
+        if(val > 4) borderSize = 4;
+    })">
         <h1>Neocities Counter Generator</h1>
-        <h4>Choose your visit counter</h4>
-        <div id="view">
-            <iframe width="110px" height="42" src="https://luizfnunes.github.io/neocities-counter/demo.html" frameborder="0"></iframe>
-        </div>
-        <div>
-            <label for="">Font Name</label>
-            <select id="font">
-                <option value="1">Believer</option>
-                <option value="2">Chainbox</option>
-                <option value="3">Gomarice</option>
-                <option value="4">Hieronimus</option>
-                <option value="5">Motorblock</option>
-                <option value="6">Minisystem</option>
-                <option value="7">Monofonto</option>
-                <option value="8">Ninepin</option>
-                <option value="9">November</option>
-                <option value="10">XType</option>
-            </select>
-        </div>
-        <div>
-            <label for="border">Border Color</label>
-            <input type="color" id="border" />
-        </div>
-        <div>
-            <label for="bg">Background Color</label>
-            <input type="color" id="bg" />
-        </div>
-        <div>
-            <label for="fg">Foreground Color</label>
-            <input type="color" id="fg" value="#FFF">
-        </div>
-        <div>
-            <label for="site">Site Name</label>
-            <input type="text" id="site" placeholder="YOURSITE">
-        </div>
-        <div id="button-area">
-            <button id="generate">Generate Code</button>
-        </div>
-        <div id="result"></div>
-    </div>
+        <iframe :src="demo" frameborder="0" width="132px" height="54px"></iframe>
+        <div id="parameters">
 
-    <script>
-        function updateView(generate = false) {
-            let font = document.getElementById('font').value;
-            let border = String(document.getElementById('border').value).replace('#', '');
-            let bg = String(document.getElementById('bg').value).replace('#', '');
-            let fg = String(document.getElementById('fg').value).replace('#', '');
-            let site = document.getElementById('site').value;
-            if (generate == true) {
-                if (site == "") {
-                    showAlert('error', 'Site Name is required!');
-                    return;
-                }
-            }
-            let view = document.getElementById('view');
-            let result = document.getElementById('result');
-            let iframeDemo = `<iframe width="110px" height="42" src="https://luizfnunes.github.io/neocities-counter/demo.html?border=${border}&style=${font}&bg=${bg}&fg=${fg}" frameborder="0"></iframe>`;
-            let iframeResult = `<iframe width="110px" height="42" src="https://luizfnunes.github.io/neocities-counter/counter.html?site=${site}&border=${border}&style=${font}&bg=${bg}&fg=${fg}" frameborder="0"></iframe>`;
-            view.innerHTML = iframeDemo;
-            if (generate == true) {
-                result.innerHTML = '<textarea id="code" readonly>' + iframeResult + '</textarea><button id="copy" onclick="copyToClipboard()">Copy to clipboard</button>';
-            }
-        }
-        function showAlert(type, message) {
-            let alert = document.getElementById('alert');
-            alert.classList.remove('error');
-            alert.classList.remove('success');
-            alert.classList.add(type);
-            document.getElementById('message').innerText = message;
-            alert.style.display = "flex";
-            setTimeout(() => {
-                document.getElementById('alert').style.display = "none";
-            }, 1000);
-        }
-        function copyToClipboard() {
-            let code = document.getElementById('code').value;
-            navigator.clipboard.writeText(code)
-                .then(() => {
-                    showAlert('success', "Code copied successfully");
-                })
-                .catch(err => {
-                    showAlert('error', "Error copying code!");
-                });
-        }
-        document.getElementById('font').addEventListener('change', () => {
-            updateView(false);
-        });
-        document.getElementById('border').addEventListener('change', () => {
-            updateView(false);
-        });
-        document.getElementById('bg').addEventListener('change', () => {
-            updateView(false);
-        });
-        document.getElementById('fg').addEventListener('change', () => {
-            updateView(false);
-        });
-        document.getElementById('generate').addEventListener('click', () => {
-            updateView(true);
-        });
-        document.getElementById('close').addEventListener('click', () => {
-            document.getElementById('alert').style.display = "none";
-        })
-    </script>
+
+            <div>
+                <label for="">Font Name</label>
+                <select id="font" x-model="style">
+                    <option value="1">Believer</option>
+                    <option value="2">Chainbox</option>
+                    <option value="3">Gomarice</option>
+                    <option value="4">Hieronimus</option>
+                    <option value="5">Motorblock</option>
+                    <option value="6">Minisystem</option>
+                    <option value="7">Monofonto</option>
+                    <option value="8">Ninepin</option>
+                    <option value="9">November</option>
+                    <option value="10">XType</option>
+                </select>
+            </div>
+            <div>
+                <label>Border Size</label>
+                <input type="range" x-model="borderSize" min="0" max="4" step="1" />
+            </div>
+            <div>
+                <label for="border">Border Color</label>
+                <input type="color" x-model="border" id="border" />
+            </div>
+            <div>
+                <label for="bg">Background Color</label>
+                <input type="color" x-model="bg" id="bg" />
+            </div>
+            <div>
+                <label for="fg">Foreground Color</label>
+                <input type="color" x-model="fg" id="fg">
+            </div>
+            <div>
+                <label for="site">Site Name</label>
+                <input type="text" placeholder="YOURSITE" x-model="site" id="site">
+            </div>
+            <div>
+                <label for="link">Show link to create visit counter</label>
+                <input type="checkbox" x-model="link" id="link" />
+            </div>
+            <div x-show="link">
+                <label for="linkColor">Link Color</label>
+                <input type="color" id="fg" x-model="linkColor" itemid="linkColor">
+            </div>
+            <div id="button-area">
+                <button id="generate" @click="updateCode()">Generate Code</button>
+            </div>
+            <div class="alert" :class="">
+                <p x-text="alert"></p>
+            </div>
+            <div class="code" x-show="success">
+                <textarea x-text="code" readonly></textarea>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

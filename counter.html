@@ -69,7 +69,7 @@
         }
 
         #content {
-            width: 110px;
+            width: 132px;
             height: 42px;
             font-optical-sizing: auto;
             font-weight: bold;
@@ -142,6 +142,21 @@
             font-family: "XType", serif;
             font-size: 18px;
         }
+
+        small {
+            position: absolute;
+            font-size: 09px;
+            padding: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        small a {
+            color: blue;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -157,6 +172,8 @@
         const border = getParameter("border") || "none";
         const bg = getParameter("bg") || "000000";
         const fg = getParameter("fg") || "FFFFFF";
+        const link = getParameter('link') || 'true';
+        const linkColor = getParameter('linkColor') || '#0000FF';
 
         const content = document.getElementById('content');
         if (border != "none") {
@@ -180,6 +197,11 @@
                         span.classList.add(`style${style}`);
                         span.innerText = char;
                         content.appendChild(span)
+                    }
+                    if (link === 'true') {
+                        let small = document.createElement('small');
+                        small.innerHTML = `<a style="color:#${linkColor}" target="blank" href="https://luizfnunes.github.io/neocities-counter/">Make a counter to your website.</a>`;
+                        document.body.appendChild(small)
                     }
                 }
             })

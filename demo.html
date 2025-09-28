@@ -9,7 +9,6 @@
         @font-face {
             font-family: 'Believer';
             src: url('/neocities-counter/fonts/BELIEVER.TTF');
-
         }
 
         @font-face {
@@ -69,7 +68,7 @@
         }
 
         #content {
-            width: 110px;
+            width: 132px;
             height: 42px;
             font-optical-sizing: auto;
             font-weight: bold;
@@ -78,7 +77,7 @@
             color: white;
             background-color: black;
             display: flex;
-            justify-content: end;
+            justify-content: center;
             align-items: stretch;
             gap: 5px;
         }
@@ -90,7 +89,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 4px;
+            /* margin-right: 4px; */
         }
 
         .style1 {
@@ -142,6 +141,21 @@
             font-family: "XType", serif;
             font-size: 18px;
         }
+
+        small {
+            position: absolute;
+            font-size: 09px;
+            padding: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        small a {
+            color: blue;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -156,26 +170,34 @@
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
         const style = getParameter("style") || "5";
-        const border = getParameter("border") || "none";
+        const borderSize = getParameter("borderSize") || "0";
+        const border = getParameter("border") || "000000";
         const bg = getParameter("bg") || "000000";
         const fg = getParameter("fg") || "FFFFFF";
+        const link = getParameter('link') || 'true';
+        const linkColor = getParameter('linkColor') || '#0000FF';
 
         const content = document.getElementById('content');
-        if (border != "none") {
-            content.style.borderWidth = "1px";
+        if (parseInt(borderSize) > 0) {
+            content.style.borderWidth = borderSize + "px";
             content.style.borderStyle = "solid";
             content.style.borderColor = "#" + border;
         }
         content.style.backgroundColor = "#" + bg;
         content.style.color = "#" + fg;
 
-        const text = String(randomNumber(150, 965489));
+        const text = String(randomNumber(1, 8547852));
         for (let char of text) {
             const span = document.createElement('span');
             span.classList.add('number');
             span.classList.add(`style${style}`);
             span.innerText = char;
             content.appendChild(span)
+        }
+        if (link === 'true') {
+            let small = document.createElement('small');
+            small.innerHTML = `<a style="color:#${linkColor}" target="blank" href="https://luizfnunes.github.io/neocities-counter/">Make a counter to your website.</a>`;
+            document.body.appendChild(small)
         }
     </script>
 </body>
